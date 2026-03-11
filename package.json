@@ -1,0 +1,169 @@
+{
+  "name": "xyz-decompressor",
+  "displayName": "XYZ File Decompressor",
+  "description": "Full-featured decompressor for .xyz and standard archive formats (ZIP, TAR, GZ, BZ2) inside VSCode",
+  "version": "1.0.0",
+  "publisher": "devtools",
+  "license": "MIT",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other", "Programming Languages"],
+  "keywords": ["xyz", "decompress", "extract", "archive", "zip", "tar", "gz"],
+  "activationEvents": ["onLanguage:xyz"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "xyz",
+        "aliases": ["XYZ Archive", "xyz"],
+        "extensions": [".xyz"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "xyz",
+        "scopeName": "source.xyz",
+        "path": "./syntaxes/xyz.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "xyzDecompressor.extractHere",
+        "title": "XYZ: Extract Here",
+        "icon": "$(folder-opened)"
+      },
+      {
+        "command": "xyzDecompressor.extractTo",
+        "title": "XYZ: Extract To…",
+        "icon": "$(export)"
+      },
+      {
+        "command": "xyzDecompressor.extractToWorkspace",
+        "title": "XYZ: Extract to Workspace Root",
+        "icon": "$(home)"
+      },
+      {
+        "command": "xyzDecompressor.previewContents",
+        "title": "XYZ: Preview Archive Contents",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "xyzDecompressor.createXyz",
+        "title": "XYZ: Create .xyz Archive from Folder",
+        "icon": "$(archive)"
+      },
+      {
+        "command": "xyzDecompressor.validateXyz",
+        "title": "XYZ: Validate Archive Integrity",
+        "icon": "$(check)"
+      },
+      {
+        "command": "xyzDecompressor.showStats",
+        "title": "XYZ: Show Archive Statistics",
+        "icon": "$(graph)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceExtname == .xyz || resourceExtname == .zip || resourceExtname == .gz || resourceExtname == .tgz || resourceExtname == .bz2 || resourceExtname == .tar || resourceExtname == .7z || resourceExtname == .xz",
+          "command": "xyzDecompressor.extractHere",
+          "group": "7_modification@1"
+        },
+        {
+          "when": "resourceExtname == .xyz || resourceExtname == .zip || resourceExtname == .gz || resourceExtname == .tgz || resourceExtname == .bz2 || resourceExtname == .tar || resourceExtname == .7z || resourceExtname == .xz",
+          "command": "xyzDecompressor.extractTo",
+          "group": "7_modification@2"
+        },
+        {
+          "when": "resourceExtname == .xyz || resourceExtname == .zip || resourceExtname == .gz || resourceExtname == .tgz || resourceExtname == .bz2 || resourceExtname == .tar || resourceExtname == .7z || resourceExtname == .xz",
+          "command": "xyzDecompressor.previewContents",
+          "group": "7_modification@3"
+        },
+        {
+          "when": "resourceExtname == .xyz",
+          "command": "xyzDecompressor.validateXyz",
+          "group": "7_modification@4"
+        },
+        {
+          "when": "resourceExtname == .xyz",
+          "command": "xyzDecompressor.showStats",
+          "group": "7_modification@5"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "xyzDecompressor.createXyz",
+          "group": "7_modification@6"
+        }
+      ],
+      "editor/title": [
+        {
+          "when": "resourceExtname == .xyz",
+          "command": "xyzDecompressor.extractHere",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "XYZ Decompressor",
+      "properties": {
+        "xyzDecompressor.createSubfolder": {
+          "type": "boolean",
+          "default": true,
+          "description": "Create a named subfolder when extracting archives"
+        },
+        "xyzDecompressor.overwriteExisting": {
+          "type": "string",
+          "enum": ["ask", "always", "never"],
+          "default": "ask",
+          "description": "How to handle existing files on extraction"
+        },
+        "xyzDecompressor.openAfterExtract": {
+          "type": "boolean",
+          "default": true,
+          "description": "Reveal extracted folder in Explorer after extraction"
+        },
+        "xyzDecompressor.xyzCompressionLevel": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 9,
+          "default": 6,
+          "description": "Compression level when creating .xyz archives (1=fastest, 9=best)"
+        },
+        "xyzDecompressor.xyzEncryptionEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable AES-256 encryption for new .xyz archives"
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "xyz",
+        "path": "./snippets/xyz.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@types/adm-zip": "^0.5.5",
+    "@types/tar": "^6.1.11",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3",
+    "@vscode/vsce": "^2.23.0"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.10",
+    "tar": "^6.2.1"
+  }
+}
