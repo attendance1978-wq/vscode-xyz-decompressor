@@ -1,0 +1,30 @@
+{
+  "XYZ Archive Header": {
+    "prefix": "xyz-header",
+    "body": [
+      "XYZ_ARCHIVE v1.0",
+      "CREATED: ${1:2024-01-01T00:00:00Z}",
+      "AUTHOR: \"${2:Your Name}\"",
+      "COMPRESSION: ${3|DEFLATE,STORE,BZIP2,LZMA|}",
+      "ENCRYPTION: ${4|NONE,AES256|}",
+      "CHECKSUM: SHA256",
+      "ENTRIES: ${5:0}",
+      ""
+    ],
+    "description": "XYZ archive file header template"
+  },
+  "XYZ Entry": {
+    "prefix": "xyz-entry",
+    "body": [
+      "ENTRY ${1:0}",
+      "  TYPE: ${2|FILE,DIR,SYMLINK|}",
+      "  NAME: \"${3:filename.txt}\"",
+      "  SIZE: ${4:0}",
+      "  COMPRESSED: ${5:0}",
+      "  CRC32: ${6:00000000}",
+      "  MODIFIED: ${7:2024-01-01T00:00:00Z}",
+      ""
+    ],
+    "description": "XYZ archive entry block"
+  }
+}
